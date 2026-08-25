@@ -24,7 +24,7 @@ After installation:
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/ilyaZar/omarchy-btop-activity --enable
+omarchy plugin add https://github.com/jayward/omarchy-btop-activity --enable
 ```
 
 Omarchy includes btop by default. On AMD systems, btop's own GPU panel also
@@ -43,7 +43,7 @@ used by btop. Install the plugin's narrow helper once to enable the native
 backends:
 
 ```bash
-~/.config/omarchy/plugins/ilyazar.btop/setup-gpu-helper.sh
+~/.config/omarchy/plugins/jayward.btop/setup-gpu-helper.sh
 ```
 
 The helper is built locally. On Intel it receives only `cap_perfmon`; NVIDIA
@@ -173,7 +173,7 @@ Then restart btop. This can matter for AMD GPUs like the Radeon RX 6400.
 ## Remove
 
 ```bash
-omarchy plugin remove ilyazar.btop
+omarchy plugin remove jayward.btop
 ```
 
 Removing the plugin removes its private btop settings. It does not remove btop
@@ -184,9 +184,9 @@ or change btop's normal configuration.
 Link this repository into the local plugin folder and enable it:
 
 ```bash
-ln -s "$PWD" ~/.config/omarchy/plugins/ilyazar.btop
+ln -s "$PWD" ~/.config/omarchy/plugins/jayward.btop
 omarchy-shell shell rescanPlugins
-omarchy plugin enable ilyazar.btop --section right
+omarchy plugin enable jayward.btop --section right
 ```
 
 `Service.qml` owns system sampling and the native Quickshell config bridge.

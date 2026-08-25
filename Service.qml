@@ -40,7 +40,7 @@ QtObject {
     || baselineProcess.running
     || defaultConfigProcess.running
   readonly property string configPath: Quickshell.env("XDG_RUNTIME_DIR")
-    + "/ilyazar-btop.conf"
+    + "/jayward-btop.conf"
   readonly property string configBackupPath: configPath + ".before-plugin"
   readonly property string configAbsentPath: configPath + ".absent-before-plugin"
   readonly property string pluginDir: localPath(Qt.resolvedUrl("."))
@@ -49,7 +49,7 @@ QtObject {
   readonly property string gpuHelperPath:
     (Quickshell.env("XDG_DATA_HOME")
       || Quickshell.env("HOME") + "/.local/share")
-      + "/ilyazar-btop/gpu-telemetry"
+      + "/jayward-btop/gpu-telemetry"
   readonly property var sortingValues: [
     "pid", "program", "arguments", "threads", "user", "memory",
     "cpu lazy", "cpu direct"
@@ -186,7 +186,7 @@ QtObject {
     if (baselineProcess.running) baselineProcess.running = false
     Quickshell.execDetached([
       "bash", "-c", teardownCommand, "btop-runtime-teardown",
-      pluginDir, "ilyazar.btop", configPath, configBackupPath,
+      pluginDir, "jayward.btop", configPath, configBackupPath,
       configAbsentPath, "10", "0.05"
     ])
   }

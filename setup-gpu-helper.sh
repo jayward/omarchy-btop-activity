@@ -2,7 +2,7 @@
 set -eu
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-target_dir=${XDG_DATA_HOME:-"$HOME/.local/share"}/ilyazar-btop
+target_dir=${XDG_DATA_HOME:-"$HOME/.local/share"}/jayward-btop
 target=$target_dir/gpu-telemetry
 
 mkdir -p "$target_dir"

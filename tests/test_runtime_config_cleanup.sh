@@ -11,7 +11,7 @@ trap 'rm -rf -- "$TEMP_ROOT"' EXIT
 readonly MOCK_BIN="$TEMP_ROOT/bin"
 readonly CASE_ROOT="$TEMP_ROOT/case"
 readonly PLUGIN_DIR="$CASE_ROOT/plugin"
-readonly CONFIG_PATH="$CASE_ROOT/ilyazar-btop.conf"
+readonly CONFIG_PATH="$CASE_ROOT/jayward-btop.conf"
 readonly BACKUP_PATH="$CONFIG_PATH.before-plugin"
 readonly ABSENT_PATH="$CONFIG_PATH.absent-before-plugin"
 readonly STATE_PATH="$CASE_ROOT/plugin-state"
@@ -47,7 +47,7 @@ case "$state" in
 enabled | disabled)
   enabled=false
   [[ $state == enabled ]] && enabled=true
-  printf '[{"id":"ilyazar.btop","enabled":%s}]\n' "$enabled"
+  printf '[{"id":"jayward.btop","enabled":%s}]\n' "$enabled"
   ;;
 disappears)
   rm -rf -- "$BTOP_TEST_PLUGIN_DIR"
@@ -79,7 +79,7 @@ run_baseline() {
 
 run_teardown() {
   PATH="$MOCK_BIN:$PATH" bash -c "$teardown_command" \
-    btop-runtime-teardown "$PLUGIN_DIR" ilyazar.btop \
+    btop-runtime-teardown "$PLUGIN_DIR" jayward.btop \
     "$CONFIG_PATH" "$BACKUP_PATH" "$ABSENT_PATH" 2 0
 }
 

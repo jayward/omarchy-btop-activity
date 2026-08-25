@@ -8,7 +8,7 @@ import "lib/UpdateInterval.js" as UpdateInterval
 
 Panel {
   id: root
-  moduleName: "ilyazar.btop"
+  moduleName: "jayward.btop"
   ipcTarget: moduleName
 
   property string page: "main"
@@ -34,6 +34,8 @@ Panel {
   readonly property string customIconUrl: resolveIconPath(customIconPath)
   readonly property string keybindingsScript: localPath(
     Qt.resolvedUrl("open-keybindings.sh"))
+  readonly property string btopToggleScript: localPath(
+    Qt.resolvedUrl("toggle-btop.sh"))
   readonly property string windowMode: String(setting("windowMode", "Floating"))
   readonly property int updateMs: intSetting(
     "updateMs", 2000, UpdateInterval.minimum, UpdateInterval.maximum)
@@ -46,7 +48,7 @@ Panel {
     String(setting("procSorting", "cpu lazy"))
   readonly property bool procTree: setting("procTree", false) === true
   readonly property string btopAppId: windowMode === "Tiled"
-    ? "org.omarchy.btop_tiled" : "org.omarchy.btop"
+    ? "org.omarchy.btop_tiled" : "org.omarchy.btop_activity"
   readonly property bool customIconInvalid: iconStyle === "Custom"
     && (customIconUrl === "" || customIconLoadFailed)
   readonly property string cpuTemperatureSuffix:
@@ -108,14 +110,15 @@ Panel {
       + "\n" + padRight(secondMetric, 27) + "    "
       + padLeft("Right click: menu", 17)
       + "\n" + padRight(thirdMetric, 48)
+      + "\n" + padLeft("Shortcut: Super + Alt + B", 48)
   }
 
   function styledTooltip(value) {
-    if (gpuTemperatureAvailable) return value
     var escaped = String(value)
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
+    if (gpuTemperatureAvailable) return "<pre>" + escaped + "</pre>"
     return "<pre>" + escaped.replace(
       "&lt;unavailable&gt;",
       "<font color=\"" + String(Qt.darker(Color.tooltip.text, 1.7))
@@ -162,8 +165,7 @@ Panel {
 
   function execBtop() {
     Quickshell.execDetached([
-      "omarchy-launch-or-focus-tui", "--app-id=" + btopAppId,
-      "btop", "--config", activity.configPath
+      "bash", btopToggleScript, btopAppId, activity.configPath
     ])
   }
 
@@ -289,13 +291,13 @@ Panel {
 
   function applyWindowMode(mode) {
     var action = mode === "Tiled" ? "tile" : "float"
-    var appIds = ["org.omarchy.btop", "org.omarchy.btop_tiled"]
+    var appIds = ["org.omarchy.btop_activity", "org.omarchy.btop_tiled"]
     for (var i = 0; i < appIds.length; i++) {
       var window = "class:" + appIds[i]
       var command = "hl.dispatch(hl.dsp.window.float({ action = \""
         + action + "\", window = \"" + window + "\" }))"
       if (mode === "Floating") {
-        command += "; hl.dispatch(hl.dsp.window.resize({ x = 875, y = 600, "
+        command += "; hl.dispatch(hl.dsp.window.resize({ x = 1275, y = 1200, "
           + "relative = false, window = \"" + window + "\" }))"
           + "; hl.dispatch(hl.dsp.window.center({ window = \""
           + window + "\" }))"
